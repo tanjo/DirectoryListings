@@ -12,51 +12,51 @@ class DirectoryListings
 public:
 
   // ファイル一覧取得
-	// folder : フォルダの絶対パスを入力とする 
-	// 例 : "D:\\Users\\Pictures\\"
-	static std::vector<std::string> read(std::string folder){
-		// 宣言
-		std::vector<std::string> fileList;
-		HANDLE hFind;
-		WIN32_FIND_DATA fd;
+  // folder : フォルダの絶対パスを入力とする 
+  // 例 : "D:\\Users\\Pictures\\"
+  static std::vector<std::string> read(std::string folder){
+    // 宣言
+    std::vector<std::string> fileList;
+    HANDLE hFind;
+    WIN32_FIND_DATA fd;
 
-		// ファイル名検索のためにワイルドカード追加
-		// 例 : "D:\\Users\\Pictures\\*.*"
-		std::stringstream ss;
-		ss << folder;
-		std::string::iterator itr = folder.end();
-		itr--;
-		if(*itr != '\\') ss << '\\';
-		ss << "*.*";
+    // ファイル名検索のためにワイルドカード追加
+    // 例 : "D:\\Users\\Pictures\\*.*"
+    std::stringstream ss;
+    ss << folder;
+    std::string::iterator itr = folder.end();
+    itr--;
+    if(*itr != '\\') ss << '\\';
+    ss << "*.*";
 
-		// ファイル探索
-		// FindFirstFile(ファイル名, &fd);
-		hFind = FindFirstFile(ss.str().c_str(), &fd);
+    // ファイル探索
+    // FindFirstFile(ファイル名, &fd);
+    hFind = FindFirstFile(ss.str().c_str(), &fd);
 
-		// 検索失敗
-		if(hFind == INVALID_HANDLE_VALUE){
-			std::cout << "ファイル一覧を取得できませんでした" << std::endl;
-			exit(1); // エラー終了
-		}
+    // 検索失敗
+    if(hFind == INVALID_HANDLE_VALUE){
+      std::cout << "ファイル一覧を取得できませんでした" << std::endl;
+      exit(1); // エラー終了
+    }
 
-		// ファイル名をリストに格納するためのループ
-		do{
-			// フォルダは除く
-			if(!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-			  && !(fd.dwFileAttributes & FILE_ATTRIBUTE_HIDDEN))
-			{
-				//ファイル名をリストに格納
-				char *file = fd.cFileName;
-				std::string str = file;
-				fileList.push_back(str);
-			}
-		}while(FindNextFile(hFind, &fd)); //次のファイルを探索
-		
-		// hFindのクローズ
-		FindClose(hFind); 
+    // ファイル名をリストに格納するためのループ
+    do{
+      // フォルダは除く
+      if(!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+        && !(fd.dwFileAttributes & FILE_ATTRIBUTE_HIDDEN))
+      {
+        //ファイル名をリストに格納
+        char *file = fd.cFileName;
+        std::string str = file;
+        fileList.push_back(str);
+      }
+    } while(FindNextFile(hFind, &fd)); //次のファイルを探索
+    
+    // hFindのクローズ
+    FindClose(hFind); 
 
-		return fileList;
-	} 
+    return fileList;
+  } 
    
 };
 
