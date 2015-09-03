@@ -5,13 +5,10 @@
 #elif __APPLE__
   #include <TargetConditionals.h>
   #if TARGET_OS_MAC
-    #include <sys/types.h>
     #include <dirent.h>
-#include <string>
-
-#endif // Unsupported platform (TARGET_OS_IPHONE, TARGET_IPHONE_SIMULATOR)
+    #include <string>
+  #endif // Unsupported platform (TARGET_OS_IPHONE, TARGET_IPHONE_SIMULATOR)
 #endif // Unsupported platform (__linux, __unix, __posix)
-
 
 DirectoryListing::~DirectoryListing() {
   delete this->_files;

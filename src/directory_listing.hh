@@ -16,6 +16,11 @@ public:
 private:
   std::string *_folder;
   std::vector<std::string> *_files;
+
+  DirectoryListing(DirectoryListing const &) = delete;
+  DirectoryListing(DirectoryListing &&) = delete;
+  DirectoryListing &operator= (DirectoryListing const&) = delete;
+  DirectoryListing &operator= (DirectoryListing &&) = delete;
 };
 
 #ifdef _WIN32
